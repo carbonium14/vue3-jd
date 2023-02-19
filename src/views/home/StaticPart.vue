@@ -69,8 +69,8 @@ export default {
     margin-bottom: 0.12rem;
     vertical-align: middle;
     line-height: 0.32rem;
-    background-color: #f5f5f5;
-    color: #b7b7b7;
+    background-color: $search-bgcolor;
+    color: $search-fontColor;
     border-radius: 0.16rem;
     .iconfont {
       font-size: 0.16rem;
