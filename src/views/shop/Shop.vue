@@ -8,7 +8,8 @@
         </div>
     </div>
     <ShopInfo :item="item" :hideBorder="true" v-show="item.imgUrl"></ShopInfo>
-    <Content></Content>
+    <Content :shopName="item.name"></Content>
+    <Cart></Cart>
   </div>
 </template>
 
@@ -18,6 +19,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { get } from '@/utils/request'
 import { reactive, toRefs } from 'vue'
 import Content from './Content.vue'
+import Cart from './Cart.vue'
 const useShopInfoEffect = () => {
   const route = useRoute()
   const data = reactive({
@@ -48,7 +50,8 @@ export default {
   name: 'SHOP',
   components: {
     ShopInfo,
-    Content
+    Content,
+    Cart
   },
   setup () {
     const { item, getItemData } = useShopInfoEffect()
