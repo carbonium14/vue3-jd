@@ -11,37 +11,35 @@
                 <span class="product__header__clear__btn" @click="() => cleanCartProducts(shopId)">清空购物车</span>
             </div>
         </div>
-        <template v-for="item in productList" :key="item._id">
-            <div class="product__item" v-if="item.count > 0">
-                <div class="product__item__checked iconfont" v-html="item.check ? '&#xe652;' : '&#xe667;'"
-                    @click.stop="() => changeCartItemChecked(shopId, item._id)">
-                </div>
-                <img class="product__item__img" :src="item.imgUrl" alt="图片">
-                <div class="product__item__detail">
-                    <h4 class="product__item__title">{{ item.name }}</h4>
-                    <p class="product__item__price">
-                        <span class="product__item__yen">&yen;</span>{{ item.price }}
-                        <span class="product__item__origin">&yen;{{ item.oldPrice }}</span>
-                    </p>
-                </div>
-                <div class="product__number">
-                    <span class="product__number__minus" @click="()=>changeCartItemInfo(shopId, item._id, item, -1)">-</span>
-                    {{ item.count || 0 }}
-                    <span class="product__number__plus" @click="()=>changeCartItemInfo(shopId, item._id, item, 1)">+</span>
-                </div>
+        <div class="product__item" v-for="item in productList" :key="item._id">
+            <div class="product__item__checked iconfont" v-html="item.check ? '&#xe652;' : '&#xe667;'"
+                @click.stop="() => changeCartItemChecked(shopId, item._id)">
             </div>
-        </template>
+            <img class="product__item__img" :src="item.imgUrl" alt="图片">
+            <div class="product__item__detail">
+                <h4 class="product__item__title">{{ item.name }}</h4>
+                <p class="product__item__price">
+                    <span class="product__item__yen">&yen;</span>{{ item.price }}
+                    <span class="product__item__origin">&yen;{{ item.oldPrice }}</span>
+                </p>
+            </div>
+            <div class="product__number">
+                <span class="product__number__minus" @click="()=>changeCartItemInfo(shopId, item._id, item, -1)">-</span>
+                {{ item.count || 0 }}
+                <span class="product__number__plus" @click="()=>changeCartItemInfo(shopId, item._id, item, 1)">+</span>
+            </div>
+        </div>
     </div>
     <div class="check">
         <div class="check__icon">
             <img class="check__icon__img" @click="handleCartShowChange" src="http://www.dell-lee.com/imgs/vue3/basket.png" alt="图片">
-            <div class="check__icon__tag">{{ caculations.total }}</div>
+            <div class="check__icon__tag">{{ calculations.total }}</div>
         </div>
         <div class="check__info">
-            总计:<span class="check__info__price">&nbsp;&yen; {{ caculations.price }}</span>
+            总计:<span class="check__info__price">&nbsp;&yen; {{ calculations.price }}</span>
         </div>
-        <div class="check__btn">
-          <router-link :to="{name: 'Home'}" >去结算</router-link>
+        <div class="check__btn" v-show="calculations.total > 0">
+          <router-link :to="{path: `/orderConfirmation/${shopId}`}" >去结算</router-link>
         </div>
     </div>
   </div>
@@ -50,36 +48,11 @@
 <script>
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
-import { computed, ref } from 'vue'
-import { useCommonCartEffect } from './commonCartEffect'
+import { ref } from 'vue'
+import { useCommonCartEffect } from '../../effects/cartEffect'
 const useCartEffect = (shopId) => {
-  const { cartList, changeCartItemInfo } = useCommonCartEffect()
+  const { changeCartItemInfo, productList, calculations } = useCommonCartEffect(shopId)
   const store = useStore()
-  const caculations = computed(() => {
-    const productList = cartList[shopId]?.productList
-    const result = {
-      total: 0,
-      price: 0,
-      allChecked: true
-    }
-    if (productList) {
-      for (const i in productList) {
-        const product = productList[i]
-        result.total += product.count
-        if (product.check) {
-          result.price += product.count * product.price
-        }
-        if (product.count > 0 && !product.check) {
-          result.allChecked = false
-        }
-      }
-    }
-    return result
-  })
-  const productList = computed(() => {
-    const productList = cartList[shopId]?.productList || []
-    return productList
-  })
   const changeCartItemChecked = (shopId, productId) => {
     store.commit('changeCartItemChecked', {
       shopId,
@@ -102,7 +75,7 @@ const useCartEffect = (shopId) => {
     changeCartItemChecked,
     cleanCartProducts,
     setCartItemsChecked,
-    caculations
+    calculations
   }
 }
 const toggleCartEffect = () => {
@@ -121,7 +94,7 @@ export default {
     const route = useRoute()
     const shopId = route.params.id
     const { handleCartShowChange, showCart } = toggleCartEffect()
-    const { caculations, productList, changeCartItemInfo, changeCartItemChecked, cleanCartProducts, setCartItemsChecked } = useCartEffect(shopId)
+    const { calculations, productList, changeCartItemInfo, changeCartItemChecked, cleanCartProducts, setCartItemsChecked } = useCartEffect(shopId)
     return {
       productList,
       shopId,
@@ -131,7 +104,7 @@ export default {
       setCartItemsChecked,
       showCart,
       handleCartShowChange,
-      caculations
+      calculations
     }
   }
 }
