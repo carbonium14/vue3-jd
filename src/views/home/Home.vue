@@ -21,13 +21,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/style/viriables.scss';
+@import '@/style/mixins.scss';
 .wrapper {
   overflow-y: auto;
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0.5rem;
-  right: 0;
+  @include fix-content;
   padding: 0 0.18rem 0.1rem 0.18rem;
 }
 </style>

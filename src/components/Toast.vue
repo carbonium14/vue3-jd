@@ -10,6 +10,14 @@ export default {
     message: {
       type: String
     }
+  },
+  setup () {
+    const { showToast, show, toastMessage } = useToastEffect()
+    return {
+      show,
+      toastMessage,
+      showToast
+    }
   }
 }
 export const useToastEffect = () => {

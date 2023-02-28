@@ -19,12 +19,13 @@
 import { useCommonCartEffect } from '@/effects/cartEffect'
 import { useRoute, useRouter } from 'vue-router'
 import { post } from '@/utils/request'
-import { showToast } from '@/components/Toast.vue'
+import { useToastEffect } from '@/components/Toast.vue'
 import { useStore } from 'vuex'
 import { ref } from 'vue'
 const useMakeOrderEffect = (productList, shopId, shopName) => {
   const router = useRouter()
   const store = useStore()
+  const { showToast } = useToastEffect()
   const handleConfirmOrder = async (isCanceled) => {
     const products = []
     for (const i in productList.value) {
@@ -43,10 +44,13 @@ const useMakeOrderEffect = (productList, shopId, shopName) => {
         products
       })
       if (result?.errno === 0) {
-        router.push({ name: 'OrderList' })
+        const cartList = JSON.parse(localStorage.cartList || '{}')
+        delete cartList[shopId]
+        localStorage.cartList = JSON.stringify(cartList)
         store.commit('clearCartData', {
           shopId
         })
+        router.push({ name: 'OrderList' })
       }
     } catch (e) {
       showToast(e)

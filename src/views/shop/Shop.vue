@@ -99,6 +99,7 @@ export default {
             width: 100%;
             padding-right: 0.2rem;
             color: $content-fontcolor;
+            font-size: 0.14rem;
             &::placeholder {
                 color: $content-fontcolor;
                 font-size: 0.14rem;
