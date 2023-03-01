@@ -1,11 +1,11 @@
 <template>
     <div class="wrapper">
         <div class="title">我的全部购物车</div>
-        <template v-for="(cart, key) in list" :key="key">
-          <div class="cart" v-if="cart.total !== 0" @click="() => handleCartClick(key)">
+        <template v-for="(cart, key) in cartList" :key="key">
+          <div class="cart" v-if="cart.total" @click="() => handleCartClick(key)">
             <div class="cart__title">{{ cart.shopName }}</div>
             <template v-for="(product, innerkey) in cart.productList" :key="innerkey">
-              <div class="cart__item" v-if="product.count !== 0">
+              <div class="cart__item">
                 <img class="cart__image" :src="product.imgUrl" alt="图片">
                 <div class="cart__content">
                   <p class="cart__content__title">{{ product.name }}</p>
@@ -40,15 +40,30 @@ export default {
   setup () {
     const router = useRouter()
     const list = JSON.parse(localStorage.cartList || '{}')
+    const previewList = {}
     for (const i in list) {
       const cart = list[i]
       const productList = cart.productList
+      previewList[i] = {
+        shopName: cart.shopName,
+        total: 0,
+        productList: {}
+      }
       let total = 0
+      let count = 0
       for (const j in productList) {
         const product = productList[j]
         total += product.count
+        if (product.count === 0) {
+          delete list[i].productList[j]
+        }
+        if (count < 2) {
+          previewList[i].productList[j] = { ...product }
+          count++
+        }
       }
       cart.total = total
+      previewList[i].total = total
     }
     const isEmpty = computed(() => {
       let empty = false
@@ -64,8 +79,12 @@ export default {
     const showAll = () => {
       full.value = !full.value
     }
+    const cartList = computed(() => {
+      return full.value ? list : previewList
+    })
     return {
       list,
+      cartList,
       handleCartClick,
       isEmpty,
       showAll,
