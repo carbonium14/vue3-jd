@@ -17,3 +17,10 @@
     color: $content-fontcolor;
     text-align: center;
 }
+@mixin empty {
+    text-align: center;
+    line-height: 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 0.16rem;
+    color: $light-fontColor;
+}

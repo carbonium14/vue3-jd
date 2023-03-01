@@ -1,7 +1,7 @@
 <template>
     <div class="order">
         <div class="order__price">实付金额:&nbsp;<b>&yen;{{ calculations.price }}</b></div>
-        <div class="order__btn" @click="() => handleSubmitClick(true)">提交订单</div>
+        <div v-show="showSubmitBtn" class="order__btn" @click="() => handleSubmitClick(true)">提交订单</div>
     </div>
     <div class="mask" v-show="showConfirm" @click="() => handleSubmitClick(false)">
       <div class="mask__content" @click.stop>
@@ -22,7 +22,7 @@ import { post } from '@/utils/request'
 import { useToastEffect } from '@/components/Toast.vue'
 import { useStore } from 'vuex'
 import { ref } from 'vue'
-const useMakeOrderEffect = (productList, shopId, shopName) => {
+const useMakeOrderEffect = (productList, shopId, shopName, addressId) => {
   const router = useRouter()
   const store = useStore()
   const { showToast } = useToastEffect()
@@ -37,7 +37,7 @@ const useMakeOrderEffect = (productList, shopId, shopName) => {
     }
     try {
       const result = await post('/api/order', {
-        addressId: 1,
+        addressId,
         shopId,
         shopName: shopName.value,
         isCanceled,
@@ -75,10 +75,12 @@ export default {
   setup () {
     const route = useRoute()
     const shopId = +route.params.id
+    const addressId = route.query.addressId
     const { calculations, shopName, productList } = useCommonCartEffect(shopId)
-    const { handleConfirmOrder } = useMakeOrderEffect(productList, shopId, shopName)
+    const { handleConfirmOrder } = useMakeOrderEffect(productList, shopId, shopName, addressId)
     const { showConfirm, handleSubmitClick } = useShowMaskEffect()
     return {
+      showSubmitBtn: !!addressId,
       calculations,
       handleConfirmOrder,
       showConfirm,

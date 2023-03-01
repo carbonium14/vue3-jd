@@ -28,6 +28,14 @@ const routes = [{
   name: 'Address',
   component: () => import(/* webpackChunkName: 'address' */ '../views/address/Address.vue')
 }, {
+  path: '/addressEdit',
+  name: 'AddressEdit',
+  component: () => import(/* webpackChunkName: 'addressEdit' */ '../views/addressEdit/AddressEdit.vue')
+}, {
+  path: '/addressSelect',
+  name: 'AddressSelect',
+  component: () => import(/* webpackChunkName: 'addressSelect' */ '../views/addressSelect/AddressSelect.vue')
+}, {
   path: '/shop/:id',
   name: 'Shop',
   component: () => import(/* webpackChunkName: 'shop' */ '../views/shop/Shop.vue')

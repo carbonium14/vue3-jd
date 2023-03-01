@@ -1,10 +1,10 @@
 <template>
-  <div class="mask" v-if="showCart && caculations.total > 0" @click="handleCartShowChange"></div>
+  <div class="mask" v-if="showCart && calculations.total > 0" @click="handleCartShowChange"></div>
   <div class="cart">
-    <div class="product" v-if="showCart && caculations.total > 0">
+    <div class="product" v-if="showCart && calculations.total > 0">
         <div class="product__header">
             <div class="product__header__all" @click="() => setCartItemsChecked(shopId)">
-                <span class="product__header__icon iconfont" v-html="caculations.allChecked ? '&#xe652;' : '&#xe667;'"></span>
+                <span class="product__header__icon iconfont" v-html="calculations.allChecked ? '&#xe652;' : '&#xe667;'"></span>
                 全选
             </div>
             <div class="product__header__clear">

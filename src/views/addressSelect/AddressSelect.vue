@@ -1,10 +1,7 @@
 <template>
     <div class="wrapper">
       <div class="title">
-        我的地址
-        <span class="title__create">
-          <router-link to="/addressEdit">新建</router-link>
-        </span>
+        选择地址
       </div>
       <div class="address" v-if="addressList.length > 0">
         <div class="address__item" v-for="address in addressList" :key="address._id" @click="() => handleAddressClick(address._id)">
@@ -15,19 +12,16 @@
           <p class="address__item__address">
             {{ `${address.city} ${address.department} ${address.houseNumber}` }}
           </p>
-          <div class="iconfont">&#xe6f2;</div>
         </div>
       </div>
       <div class="empty" v-else>暂无地址信息</div>
     </div>
-    <Docker :currentIndex="3"></Docker>
 </template>
 
 <script>
-import Docker from '@/components/Docker.vue'
 import { ref } from 'vue'
 import { get } from '@/utils/request'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 const useAddressListListEffect = () => {
   const addressList = ref([])
   const getAddressList = async () => {
@@ -42,16 +36,15 @@ const useAddressListListEffect = () => {
   }
 }
 export default {
-  name: 'ADDRESS',
-  components: {
-    Docker
-  },
+  name: 'AddressSelect',
   setup () {
     const router = useRouter()
+    const route = useRoute()
     const { addressList, getAddressList } = useAddressListListEffect()
     getAddressList()
     const handleAddressClick = (id) => {
-      router.push(`/addressEdit?id=${id}`)
+      const path = route.query.path
+      router.push(`${path}?addressId=${id}`)
     }
     return {
       addressList,
@@ -65,22 +58,17 @@ export default {
 @import '@/style/viriables.scss';
 @import '@/style/mixins.scss';
 .wrapper {
-  overflow-y: auto;
-  @include fix-content;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow-y: scroll;
   background-color: $dark-bgcolor;
 }
 .title {
   position: relative;
   @include title;
-    &__create {
-      position: absolute;
-      font-size: 0.14rem;
-      right: 0.18rem;
-      a {
-        text-decoration: none;
-        color: $content-fontcolor;
-      }
-    }
 }
 .address {
   margin: 0.16rem 0.18rem 0 0.18rem;
@@ -107,14 +95,6 @@ export default {
       margin: 0.08rem 0 0 0;
     }
   }
-}
-.iconfont {
-    position: absolute;
-    right: 0.16rem;
-    top: 0.44rem;
-    color: $light-fontColor;
-    font-size: 0.2rem;
-    transform: rotate(180deg);
 }
 .empty {
   @include empty;
