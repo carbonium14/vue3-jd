@@ -1,6 +1,7 @@
 <template>
     <div class="wrapper">
       <div class="title">
+        <span class="iconfont" @click="handleBackClick">&#xe6f2;</span>
         我的地址
         <span class="title__create">
           <router-link to="/addressEdit">新建</router-link>
@@ -20,11 +21,9 @@
       </div>
       <div class="empty" v-else>暂无地址信息</div>
     </div>
-    <Docker :currentIndex="3"></Docker>
 </template>
 
 <script>
-import Docker from '@/components/Docker.vue'
 import { ref } from 'vue'
 import { get } from '@/utils/request'
 import { useRouter } from 'vue-router'
@@ -43,9 +42,6 @@ const useAddressListListEffect = () => {
 }
 export default {
   name: 'ADDRESS',
-  components: {
-    Docker
-  },
   setup () {
     const router = useRouter()
     const { addressList, getAddressList } = useAddressListListEffect()
@@ -53,9 +49,13 @@ export default {
     const handleAddressClick = (id) => {
       router.push(`/addressEdit?id=${id}`)
     }
+    const handleBackClick = () => {
+      router.back()
+    }
     return {
       addressList,
-      handleAddressClick
+      handleAddressClick,
+      handleBackClick
     }
   }
 }
@@ -72,6 +72,15 @@ export default {
 .title {
   position: relative;
   @include title;
+  .iconfont {
+    position: absolute;
+    top: 0;
+    left: 0.1rem;
+    width: 0.32rem;
+    font-size: 0.24rem;
+    color: #b6b6b6;
+    transform: rotate(0);
+  }
     &__create {
       position: absolute;
       font-size: 0.14rem;
