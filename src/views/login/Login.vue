@@ -99,7 +99,7 @@ export default {
     }
     &__input {
         background-color: #f9f9f9;
-        border: 1px solid rgba(0,0,0,0.10);
+        border: 0.01rem solid rgba(0,0,0,0.10);
         border-radius: 0.06rem;
         height: 0.48rem;
         margin: 0 0.4rem 0.16rem 0.4rem;
@@ -108,7 +108,8 @@ export default {
             width: 100%;
             border: none;
             outline: none;
-            line-height: 0.48rem;
+            line-height: 0.22rem;
+            margin-top: 0.12rem;
             background: none;
             font-size: 0.16rem;
             color: $content-notice-fontColor;

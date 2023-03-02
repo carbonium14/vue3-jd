@@ -1,49 +1,51 @@
 <template>
-    <div class="background">
-        <div class="user" @click="handleLogoutClick">退出</div>
-    </div>
-    <div class="board">
-        <div class="board__img"></div>
-        <div class="board__name">{{ userInfo.username }}</div>
-        <div class="board__id">ID: {{ userInfo._id }}</div>
-        <div class="board__level">
-            <div class="board__level__icon"></div>
-            <div class="board__level__number">16</div>
+    <div class="wrapper">
+        <div class="background">
+            <div class="user" @click="handleLogoutClick">退出</div>
         </div>
-        <div class="board__tab">
-            <div class="board__tab__item">
-                <div class="board__tab__name">红包</div>
-                <div class="board__tab__value">218</div>
+        <div class="board">
+            <div class="board__img"></div>
+            <div class="board__name">{{ userInfo.username }}</div>
+            <div class="board__id">ID: {{ userInfo._id }}</div>
+            <div class="board__level">
+                <div class="board__level__icon"></div>
+                <div class="board__level__number">16</div>
             </div>
-            <div class="board__tab__item">
-                <div class="board__tab__name">优惠券</div>
-                <div class="board__tab__value">12张</div>
-            </div>
-            <div class="board__tab__item">
-                <div class="board__tab__name">鲜豆</div>
-                <div class="board__tab__value">88</div>
-            </div>
-            <div class="board__tab__item">
-                <div class="board__tab__name">白条</div>
-                <div class="board__tab__value">1000</div>
+            <div class="board__tab">
+                <div class="board__tab__item">
+                    <div class="board__tab__name">红包</div>
+                    <div class="board__tab__value">218</div>
+                </div>
+                <div class="board__tab__item">
+                    <div class="board__tab__name">优惠券</div>
+                    <div class="board__tab__value">12张</div>
+                </div>
+                <div class="board__tab__item">
+                    <div class="board__tab__name">鲜豆</div>
+                    <div class="board__tab__value">88</div>
+                </div>
+                <div class="board__tab__item">
+                    <div class="board__tab__name">白条</div>
+                    <div class="board__tab__value">1000</div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="tab">
-        <div class="tab__item">
-            <div class="tab__item__icon"></div>
-            <div class="tab__item__info">我的钱包</div>
-            <div class="tab__item__iconfont iconfont">&#xe6f2;</div>
-        </div>
-        <div class="tab__item" @click="handleAddressClick">
-            <div class="tab__item__icon"></div>
-            <div class="tab__item__info">我的地址</div>
-            <div class="tab__item__iconfont iconfont">&#xe6f2;</div>
-        </div>
-        <div class="tab__item">
-            <div class="tab__item__icon"></div>
-            <div class="tab__item__info">客服与帮助</div>
-            <div class="tab__item__iconfont iconfont">&#xe6f2;</div>
+        <div class="tab">
+            <div class="tab__item">
+                <div class="tab__item__icon"></div>
+                <div class="tab__item__info">我的钱包</div>
+                <div class="tab__item__iconfont iconfont">&#xe6f2;</div>
+            </div>
+            <div class="tab__item" @click="handleAddressClick">
+                <div class="tab__item__icon"></div>
+                <div class="tab__item__info">我的地址</div>
+                <div class="tab__item__iconfont iconfont">&#xe6f2;</div>
+            </div>
+            <div class="tab__item">
+                <div class="tab__item__icon"></div>
+                <div class="tab__item__info">客服与帮助</div>
+                <div class="tab__item__iconfont iconfont">&#xe6f2;</div>
+            </div>
         </div>
     </div>
     <Docker :currentIndex="3"></Docker>
@@ -94,8 +96,13 @@ export default {
 <style lang="scss" scoped>
 @import "@/style/viriables.scss";
 @import "@/style/mixins.scss";
+.wrapper {
+  overflow-y: auto;
+  @include fix-content;
+  background-color: $dark-bgcolor;
+}
 .background {
-    position: fixed;
+    position: absolute;
     left: 0;
     right: 0;
     top: 0;
